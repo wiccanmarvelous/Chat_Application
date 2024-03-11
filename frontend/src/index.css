@@ -9,7 +9,7 @@
 body {
   height: 100vh;
   width: 100vw;
-  background: url(assets/background.jpg);
+  /* background: url(assets/background.jpg); */
   overflow: hidden;
   background-size: cover;
   background-repeat: no-repeat;
@@ -22,11 +22,12 @@ body {
   width: 350px;
   padding: 1rem;
   position: absolute;
-  left: 50%;
+  left: 80%;
   top: 50%;
   transform: translate(-50%, -50%);
   border-radius: 20px;
   box-shadow: 1px 1px 10px 2px gray;
+  /* opacity: .5; */
 }
 
 .login h1,
@@ -102,6 +103,7 @@ body {
 .login button:hover,
 .signup button:hover {
   background-color: rgb(160, 189, 214);
+  cursor: pointer;
 }
 
 .btn-disable {

@@ -33,6 +33,7 @@ const SignUp = () => {
                         id="name"
                         onChange={(e) => setInputs({ ...inputs, name: e.target.value })}
                         value={inputs.name}
+                        required
                     />
                 </div>
                 <div>
@@ -42,6 +43,7 @@ const SignUp = () => {
                         id="username"
                         onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
                         value={inputs.username}
+                        required
                     />
                 </div>
                 <div>
@@ -51,6 +53,7 @@ const SignUp = () => {
                         id="password"
                         onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
                         value={inputs.password}
+                        required
                     />
                 </div>
                 <div>
@@ -60,6 +63,7 @@ const SignUp = () => {
                         id="confirm-password"
                         onChange={(e) => setInputs({ ...inputs, confirmPassword: e.target.value })}
                         value={inputs.confirmPassword}
+                        required
                     />
                 </div>
                 <div>

@@ -1,11 +1,23 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import useLogin from '../../hooks/useLogin';
+
+const initialInputState = {
+    username: '',
+    password: ''
+}
 
 const Login = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [inputs, setInputs] = useState(initialInputState);
+    const { loading, login } = useLogin();
+
+    const resetInputs = () => {
+        setInputs(initialInputState);
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        await login(resetInputs, inputs);
     }
     return (
         <div className="login">
@@ -16,8 +28,9 @@ const Login = () => {
                     <input
                         type="text"
                         id="username"
-                        onChange={e => setUsername(e.target.value)}
-                        value={username}
+                        onChange={(e) => setInputs({...inputs, username: e.target.value})}
+                        value={inputs.username}
+                        required
                     />
                 </div>
                 <div>
@@ -25,14 +38,15 @@ const Login = () => {
                     <input
                         type="password"
                         id="password"
-                        onChange={e => setPassword(e.target.value)}
-                        value={password}
+                        onChange={(e) => setInputs({...inputs, password: e.target.value})}
+                        value={inputs.password}
+                        required
                     />
                 </div>
                 <div>
                     <Link to="/signup">Don't have an account ?</Link>
                 </div>
-                <button type='submit'>Login</button>
+                <button className={`${loading ? 'btn-disable' : ''}`} type='submit'>Login</button>
             </form>
         </div>
 

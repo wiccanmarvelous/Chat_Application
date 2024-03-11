@@ -10,9 +10,8 @@ const useSignup = () => {
     const signup = async (resetInputs, {name, username, password, confirmPassword}) => {
 
         const dataValid = checkData(name, username, password, confirmPassword);
-        if (!dataValid) {
+        if (!dataValid)
             return;
-        }
 
         setLoading(true);
         try {

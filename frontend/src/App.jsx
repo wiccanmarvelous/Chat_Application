@@ -11,11 +11,12 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path='/home' element={authUser ? <Home /> : <Navigate to='/login' />} />
-        <Route path='/signup' element={authUser ? <Navigate to='/home' /> : <SignUp />} />
-        <Route path='/login' element={authUser ? <Navigate to='/home' /> : <Login />} />
+      <Route path='/' element={authUser ? <Home /> : <Navigate to='/login' />} />
+        <Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
+        <Route path='/signup' element={authUser ? <Navigate to='/' /> : <SignUp />} />
       </Routes>
       <Toaster />
+      {console.log(authUser)}
     </>
   )
 }

@@ -1,10 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import connectMongoDB from './db/connectMongoDB.js';
 import authRoutes from './routes/authUser.routes.js';
-import cookieParser from 'cookie-parser';
+import usersRoutes from './routes/users.routes.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/user', usersRoutes);
 
 app.listen(PORT, () => {
     connectMongoDB();

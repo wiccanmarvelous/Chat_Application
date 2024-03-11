@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const getInitialUser = () => JSON.parse(localStorage.getItem('chat-user')) || null
+const initialState = { 
+    authUser: JSON.parse(localStorage.getItem('chat-user')) || null,
+}
 const authSlice = createSlice({
     name: 'auth',
-    initialState: getInitialUser(),
+    initialState,
     reducers: {
         setAuthUser(state, action) {
             state.authUser = action.payload;
@@ -12,4 +14,5 @@ const authSlice = createSlice({
 })
 
 export const authActions = authSlice.actions;
+
 export default authSlice.reducer;
