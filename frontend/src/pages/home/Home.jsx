@@ -1,14 +1,12 @@
 import React from 'react'
+import Navbar from '../../components/Navbar/Navbar';
+import SearchUser from '../../components/Messages/Users/SearchUser';
 
 const Home = () => {
   return (
     <div className='home'>
-      <div className="users">
-        
-      </div>
-      <div className="message">
-
-      </div>
+      <Navbar  />
+      <SearchUser />
     </div>
   )
 }

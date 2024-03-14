@@ -3,7 +3,7 @@ import User from "../models/user.models.js"
 export const searchUser = async (req, res) => {
     try {
         const { username: searchUsername } = req.params;
-        const user = await User.findOne({ username: searchUsername });
+        const user = await User.find({ username: { $regex: searchUsername, $options: 'i'} });
         if (!user)
             res.status(500).json({ error: "Can't find the user." });
 
