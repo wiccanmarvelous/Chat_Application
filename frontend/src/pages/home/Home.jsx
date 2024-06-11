@@ -1,13 +1,16 @@
 import React from 'react'
-import Navbar from '../../components/Navbar/Navbar';
-import SearchUser from '../../components/Messages/Users/SearchUser';
+import Navbar from '../../components/Navbar/Navbar'
 
 const Home = () => {
   return (
-    <div className='home'>
-      <Navbar  />
-      <SearchUser />
-    </div>
+    <>
+      <div className="main">
+        <div className='home'>
+
+        </div>
+      </div>
+      <Navbar />
+    </>
   )
 }
 

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-const useSearchUser = () => {
+const useSearchOneUser = () => {
     const [loading, setLoading] = useState(false);
-    const [getSerchedUser, setGetSerchedUser] = useState([]);
+    const [getSerchedUser, setGetSerchedUser] = useState('');
     const searchUser = async (username) => {
         setLoading(true);
         try {
-            const res = await fetch(`/api/user/searchUser/${username}`);
+            const res = await fetch(`/api/user/searchOneUser/${username}`);
             const data = await res.json();
             
             if (data.error)
@@ -23,4 +23,4 @@ const useSearchUser = () => {
     return { loading, searchUser, getSerchedUser };
 }
 
-export default useSearchUser;
+export default useSearchOneUser;
