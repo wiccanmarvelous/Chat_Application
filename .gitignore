@@ -8,12 +8,10 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+frontend/node_modules
 dist
 dist-ssr
 *.local
-.env
-temp.jsx
-temp.txt
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +23,4 @@ temp.txt
 *.njsproj
 *.sln
 *.sw?
+node_modules
