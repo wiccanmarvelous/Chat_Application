@@ -20,7 +20,7 @@ const App = () => {
 
   useEffect(() => {
     if (authUser) {
-      const socket = io("http://localhost:4000", {
+      const socket = io("https://chat-application-89gu.onrender.com", {
         query: {
           userId: authUser.id
         }
