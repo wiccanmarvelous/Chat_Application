@@ -26,13 +26,21 @@ const SearchUser = () => {
     const selectedUser = (user) => {
         dispatch(userActions.setUser(user));
     }
+
+    const styleLabel = {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)"
+    }
+
     return (
         <>
             <div className="main">
                 <div className='searchUser'>
                     <SearcBox handleChange={handleChange} username={username} />
                     {loading ? (
-                        <div>Loading...</div>
+                        <h2 style={styleLabel}>Loading...</h2>
                     ) : (
                         <UserBox route='user' username={username} getSerchedUser={getSerchedUser} />
                     )}

@@ -7,8 +7,6 @@ export const searchUser = async (req, res) => {
         if (!user)
             res.status(500).json({ error: "Can't find the user." });
 
-        console.log(user);
-
         res.status(200).json(user);
 
 
@@ -24,8 +22,6 @@ export const searchOneUser = async (req, res) => {
         const user = await User.findOne({ username: searchUsername }).select('-password');
         if (!user)
             res.status(500).json({ error: "Can't find the user." });
-
-        console.log(user);
 
         res.status(200).json(user);
         
@@ -44,6 +40,19 @@ export const getAllUsers = async (req, res) => {
         res.status(200).json(filteredUsers);
     } catch (error) {
         console.log('Error in getAllUsers controller', error.message);
+        res.status(500).json({ error: 'Internal server error.' });
+    }
+}
+
+export const getCurrentUser = async (req, res) => {
+    try {
+        const user = req.user;
+        if (!user)
+            return res.status(400).json({ error: "Can't find user" });
+        res.status(200).json({user: user});
+
+    } catch (error) {
+        console.log('Error in getCurrentUser controller', error.message);
         res.status(500).json({ error: 'Internal server error.' });
     }
 }

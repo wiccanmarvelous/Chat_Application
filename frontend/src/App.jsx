@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
 
 import Login from './pages/login/Login'
@@ -10,23 +10,45 @@ import User from './components/Users/User'
 import SearchUser from './components/Users/SearchUser'
 import Send from './components/Messages/Send'
 import Message from './components/Messages/Message'
+import EditProgile from './components/Users/EditProgile'
+import { io } from 'socket.io-client';
+import socket, { socketActions } from './store/socket';
 
 const App = () => {
   const authUser = useSelector(state => state.auth.authUser);
-  const searchUser = useSelector(state => state.user.user);
-  const navVal = useSelector(state => state.nav.navVal);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (authUser) {
+      const socket = io("http://localhost:4000", {
+        query: {
+          userId: authUser.id
+        }
+      })
+      dispatch(socketActions.setSocketId(socket.id));
+      return () => socket.close();
+    } else {
+      if (socket == undefined || socket == null) {
+        socket.close();
+        dispatch(socketActions.setSocketId(null));
+      }
+    }
+  }, [authUser]);
+
 
   return (
     <div className='app'>
       <Routes>
-        <Route path='/login' element={authUser ? <Navigate to='/home' /> : <Login />} />
-        <Route path='/signup' element={authUser ? <Navigate to='/home' /> : <SignUp />} />
+        <Route path='/login' element={authUser ? <Navigate to={`/user/${authUser.username}`} /> : <Login />} />
+        <Route path='/signup' element={authUser ? <Navigate to={`/user/${authUser.username}`} /> : <SignUp />} />
 
         <Route path='/home' element={authUser ? <Home /> : <Navigate to='/login' />} />
         <Route path='/search' element={authUser ? <SearchUser /> : <Navigate to='/login' />} />
+        <Route path='/user/edit' element={authUser ? <EditProgile /> : <Navigate to='/login' />} />
         <Route path='/user/:username' element={authUser ? <User /> : <Navigate to='/login' />} />
         <Route path='/send' element={authUser ? <Send /> : <Navigate to='/login' />} />
         <Route path='/send/:username' element={authUser ? <Message /> : <Navigate to='/login' />} />
+        <Route path='*' element={authUser ? <Home /> : <Navigate to='/login' />} />
       </Routes>
       <Toaster />
     </div>

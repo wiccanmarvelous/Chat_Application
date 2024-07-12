@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
 
 import User from "../models/user.models.js";
-import geTokenSetCookie from '../utils/genTokenSetCookie.js';
+import genTokenSetCookie from '../utils/genTokenSetCookie.js';
 
 export const signup = async (req, res) => {
     try {
@@ -28,7 +28,7 @@ export const signup = async (req, res) => {
         });
 
         if (newUser) {
-            geTokenSetCookie(res, newUser._id);
+            genTokenSetCookie(res, newUser._id);
             await newUser.save();
             res.status(200).json({
                 id: newUser._id,
@@ -58,7 +58,7 @@ export const login = async (req, res) => {
         if (!checkPassword)
             return res.status(400).json({ error: 'Incorrect password.' });
 
-        geTokenSetCookie(res, user._id);
+        genTokenSetCookie(res, user._id);
 
         res.status(200).json({
             id: user._id,

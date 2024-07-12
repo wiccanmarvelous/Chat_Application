@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
 
   const navVal = useSelector(state => state.nav.navVal);
+  const authUser = useSelector(state => state.auth.authUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
@@ -27,9 +28,14 @@ const Navbar = () => {
   return (
     <div className='navbar'>
       <ul>
-        <li>
+        {/* <li>
           <button onClick={() => handleClick('home')}>
             {navVal === 'home' ? <HomeIcon style={{ color: 'white' }} /> : <HomeOutlinedIcon style={{ color: 'white' }} />}
+          </button>
+        </li> */}
+        <li>
+          <button onClick={() => handleClick(`user/${authUser.username}`)}>
+            {navVal === 'account' ? <AccountCircleIcon style={{ color: 'white' }} /> : <AccountCircleOutlinedIcon style={{ color: 'white' }} />}
           </button>
         </li>
         <li>
@@ -40,11 +46,6 @@ const Navbar = () => {
         <li>
           <button onClick={() => handleClick('send')}>
             {navVal === 'send' ? <SendIcon style={{ color: 'white' }} /> : <SendOutlinedIcon style={{ color: 'white' }} />}
-          </button>
-        </li>
-        <li>
-          <button onClick={() => handleClick(`user/sxmcbaka`)}>
-            {navVal === 'account' ? <AccountCircleIcon style={{ color: 'white' }} /> : <AccountCircleOutlinedIcon style={{ color: 'white' }} />}
           </button>
         </li>
       </ul>

@@ -5,6 +5,7 @@ import Navbar from '../Navbar/Navbar';
 import Header from '../header/Header';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import useLogout from '../../hooks/useLogout';
 
 const User = (props) => {
 
@@ -12,8 +13,8 @@ const User = (props) => {
   const authUser = useSelector(state => state.auth.authUser);
   const navigate = useNavigate();
 
-  const { loading, searchUser, getSerchedUser } = useSearchOneUser();
-
+  const { loading: searchLoading, searchUser, getSerchedUser } = useSearchOneUser();
+  const { loading: logoutLoading, logout } = useLogout();
 
   useEffect(() => {
 
@@ -25,47 +26,54 @@ const User = (props) => {
     navigate(`/send/${val}`);
   }
 
+  const styleLabel = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)"
+  }
+
   return (
     <>
       <div className="main">
         <div className='user'>
-          {loading ? (
-            <div>Loading...</div>
+          {searchLoading ? (
+            <h2 style={styleLabel}>Loading...</h2>
           ) : (
             <div className='user-data'>
               <div className="user-1">
                 <div className="user-profilePic">
                   <img src={getSerchedUser.profilePic} alt="" />
                 </div>
-                <div className="follow">
+                {/* <div className="follow">
                   <button className="posts">
-                    <span>2.5K</span>
+                    <span>{getSerchedUser.postsCount}</span>
                     <h4>posts</h4>
                   </button>
                   <button className="followers">
-                    <span>-1</span>
+                    <span>{getSerchedUser.followersCount}</span>
                     <h4>followers</h4>
                   </button>
                   <button className="following">
-                    <span>6.8T</span>
+                    <span>{getSerchedUser.followingCount}</span>
                     <h4>following</h4>
                   </button>
-                </div>
+                </div> */}
               </div>
               <div className="user-2">
                 <h3>{getSerchedUser.name}</h3>
-                <p>Bio</p>
+                {/* <p>{getSerchedUser.bio}</p> */}
               </div>
               <div className="user-3">
                 {
                   getSerchedUser.username === authUser.username ? (
                     <>
-                      <button className="user-edit-btn">Edit profile</button>
-                      <button className='user-share-btn'>Share profile</button>
+                      {/* <button onClick={() => navigate('/user/edit')} className="user-edit-btn">Edit profile</button> */}
+                      <button onClick={logout} className='user-share-btn'>Logout</button>
                     </>
                   ) : (
                     <>
-                      <button className="user-edit-btn">Follow</button>
+                      {/* <button className="user-edit-btn">Follow</button> */}
                       <button onClick={() => messageUser(getSerchedUser.username)} className='user-share-btn'>Message</button>
                     </>
                   )

@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 const useSearchOneUser = () => {
     const [loading, setLoading] = useState(false);
     const [getSerchedUser, setGetSerchedUser] = useState('');
+    
     const searchUser = async (username) => {
         setLoading(true);
         try {
@@ -12,10 +13,16 @@ const useSearchOneUser = () => {
             
             if (data.error)
                 throw new Error(data.error);
-            setGetSerchedUser(data);
+            setGetSerchedUser({
+                ...data, 
+                postsCount: data.posts.length, 
+                followersCount: data.followers.length,
+                followingCount: data.following.length
+            });
+            // console.log(data);
         } catch (error) {
             console.log(error.message);
-            // toast.error(error.message);
+            toast.error(error.message);
         } finally {
             setLoading(false);
         }

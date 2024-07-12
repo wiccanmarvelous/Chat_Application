@@ -110,6 +110,7 @@ button:hover {
   height: 2rem;
   width: 5rem;
   border-radius: 10px;
+  background-color: rgb(160, 189, 214);
 }
 
 button:hover {
@@ -275,7 +276,7 @@ button:hover {
   margin: .5rem 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .user .user-1 span {
@@ -300,6 +301,9 @@ button:hover {
 
 .user .user-2 {
   margin: .5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .user .user-3 {
@@ -374,7 +378,7 @@ button:hover {
   max-width: 70%;
   float: left;
   background-color: rgb(37, 37, 37);
-  padding: .5rem;
+  padding: .8rem;
   margin: .1rem 0;
   border-radius: 20px;
 }
@@ -386,7 +390,7 @@ button:hover {
     #de2aee,  #6228d7
     ); */
   background-color: #6228d7;
-  padding: .5rem;
+  padding: .8rem;
   margin: .1rem 0;
   border-radius: 20px;
 }
@@ -412,6 +416,7 @@ button:hover {
 .message input {
   height: 100%;
   width: 100%;
+  color: white;
   background: transparent;
   padding: .5rem;
   font-size: 1.1em;
@@ -421,6 +426,15 @@ button:hover {
   margin: 0 .5rem;
 }
 
+.send {
+  height: 100%;
+  width: 100%;
+}
+/* 
+.users {
+  height: 75%;
+  border: 1px solid red;
+} */
 
 @media screen and (max-width: 1024px) and (max-height: 1366px) {
 

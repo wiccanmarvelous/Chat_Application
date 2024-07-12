@@ -1,68 +1,65 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import MicIcon from '@mui/icons-material/Mic';
 import SendIcon from '@mui/icons-material/Send';
-
-const mess = [
-  { value: 'left', message: 'hi how are you' },
-  { value: 'right', message: 'hi i am fine how do you do' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi how are you' },
-  { value: 'right', message: 'hi i am fine how do you do' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi how are you' },
-  { value: 'right', message: 'hi i am fine how do you do' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi how are you' },
-  { value: 'right', message: 'hi i am fine how do you do' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi how are you' },
-  { value: 'right', message: 'hi i am fine how do you do' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi how are you' },
-  { value: 'right', message: 'hi i am fine how do you do' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi how are you' },
-  { value: 'right', message: 'hi i am fine how do you do' },
-  { value: 'right', message: 'hi' },
-  { value: 'left', message: 'hi' },
-  { value: 'right', message: 'hi' },
-  { value: 'right', message: 'hi' },
-]
+import useSendMessage from '../../hooks/useSendMessage';
+import useGetMessages from '../../hooks/useGetMessages';
+import useSearchOneUser from '../../hooks/useSearchOneUser';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import useListenMessage from '../../hooks/useListenMessage';
+import useConversation from '../../store/useConversation';
 
 const Message = () => {
 
+  const params = useParams();
+  const navigate = useNavigate();
+  const authUser = useSelector(state => state.auth.authUser);
+  const { sendMessage, loading: sendLoading } = useSendMessage();
+  const { getMessages, messages, loading: getLoading } = useGetMessages();
+  const { loading, searchUser, getSerchedUser } = useSearchOneUser();
+	const lastMessageRef = useRef();
+
+  const { setMessages } = useConversation();
+  const socket = useSelector(state => state.socket.socketId);
+
   const [messageInput, setMessageInput] = useState('');
+  const [sent, setSent] = useState(false);
+  // const [messageList, setMessageList] = useState(messages);
+  useListenMessage();
+
+  useEffect(() => {
+    getMessages(params.username);
+    searchUser(params.username);
+    socket?.on("newMessage", (messageInput) => {
+      messageInput.sholdShake = true;
+      setMessages([messageInput, ...messages]);
+      console.log("socket", messageInput);
+  })
+  }, [messageInput, messages, sent]);
+
+  useEffect(() => {
+		setTimeout(() => {
+			lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+		}, 100);
+	}, [messages]);
+
+  const sendInputMessage = () => {
+    // setMessageList(old => ([ messageInput , ...old]));
+    setMessageInput('');
+    sendMessage(params.username, messageInput);
+    setSent(old => !old);
+  }
 
   return (
     <div className='message'>
-      <header>
+      <header onClick={() => navigate(`/user/${getSerchedUser.username}`)}>
         <div className="left">
-          <button><KeyboardBackspaceIcon style={{ color: 'white' }} /></button>
           <div className="bio">
-            <img src={`https://avatar.iran.liara.run/public`} alt="" />
+            <img src={getSerchedUser.profilePic} alt="" />
             <div className="name">
-              <h5>Name</h5>
-              <h6>Username</h6>
+              <h3>{getSerchedUser.name}</h3>
+              <h5>{getSerchedUser.username}</h5>
             </div>
           </div>
           <div className="right">
@@ -71,10 +68,11 @@ const Message = () => {
       </header>
       <main>
         {
-          mess.map((i => (
-            <div className='pos'>
-              <span className={`${i.value}`}>
-                {i.message}
+          messages.map((i => (
+            <div key={Math.random()} className='pos'>
+              <span className={`${i.senderId === authUser.id ? "right" : "left"}`}>
+                <h3>{i.message}</h3>
+                <h5 style={{color: "black", marginTop: ".2rem", float: "right"}}>{i.time}</h5>
               </span>
             </div>
           )))
@@ -88,7 +86,13 @@ const Message = () => {
             value={messageInput}
             onChange={e => setMessageInput(e.target.value)}
           />
-          <button className="send-btn">{messageInput.trim().length === 0 ? '' : <SendIcon style={{color: 'gray'}} />}</button>
+          <button
+            className="send-btn"
+            onClick={sendInputMessage}
+            onKeyDown={e => e.key === 'Enter' ? sendInputMessage : ''}
+          >
+            {messageInput.trim().length === 0 ? '' : <SendIcon style={{ color: 'gray' }} />}
+          </button>
         </div>
       </footer>
     </div>
