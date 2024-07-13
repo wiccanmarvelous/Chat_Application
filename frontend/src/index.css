@@ -8,6 +8,7 @@
 
 body {
   height: 100vh;
+  height: 100svh;
   width: 100vw;
   /* background: url(assets/background.jpg); */
   color: white;
@@ -141,6 +142,7 @@ button:hover {
 
 .root {
   height: 100vh;
+  height: 100svh;
   width: 100%;
   display: flex;
 }
@@ -153,6 +155,7 @@ button:hover {
 
 .app {
   height: 100vh;
+  height: 100svh;
   width: 100vw;
 }
 
