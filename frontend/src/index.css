@@ -366,7 +366,7 @@ button:hover {
 }
 
 .message main {
-  height: 80%;
+  height: 70%;
   width: 100%;
   display: flex;
   flex-direction: column-reverse;
@@ -399,7 +399,7 @@ button:hover {
 }
 
 .message footer {
- height: 8%;
+ height: 10%;
  width: 100%;
  background-color: transparent;
  margin: 1rem 0;
