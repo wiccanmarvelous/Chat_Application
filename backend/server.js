@@ -12,7 +12,6 @@ import path from 'path';
 
 dotenv.config();
 
-// const app = express();
 const PORT = process.env.PORT || 3000;
 
 const __dirname = path.resolve();
@@ -25,11 +24,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/user', usersRoutes);
 app.use('/api/message', messageRoutes);
 
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
 
-app.get("*", (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
-})
+});
 
 server.listen(PORT, () => {
     connectMongoDB();
