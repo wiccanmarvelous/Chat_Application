@@ -83,7 +83,7 @@ const Message = () => {
           messages.map((i => (
             <div key={Math.random()} className='pos'>
               <span className={`${i.senderId === authUser.id ? "right" : "left"}`}>
-                <h3>{i.message}</h3>
+                <h4>{i.message}</h4>
                 <h5 style={{ color: "black", marginTop: ".2rem", float: "right" }}>{i.time}</h5>
               </span>
             </div>
