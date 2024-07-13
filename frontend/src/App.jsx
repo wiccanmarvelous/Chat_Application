@@ -46,6 +46,7 @@ const App = () => {
         <Route path='/search' element={authUser ? <SearchUser /> : <Navigate to='/login' />} />
         <Route path='/user/edit' element={authUser ? <EditProgile /> : <Navigate to='/login' />} />
         <Route path='/user/:username' element={authUser ? <User /> : <Navigate to='/login' />} />
+        <Route path='/' element={authUser ? <Navigate to={`/user/${authUser.username}`} /> : <Navigate to='/login' />} />
         <Route path='/send' element={authUser ? <Send /> : <Navigate to='/login' />} />
         <Route path='/send/:username' element={authUser ? <Message /> : <Navigate to='/login' />} />
         <Route path='*' element={authUser ? <Home /> : <Navigate to='/login' />} />

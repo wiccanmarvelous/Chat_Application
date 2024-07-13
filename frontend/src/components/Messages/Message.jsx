@@ -6,19 +6,22 @@ import useSendMessage from '../../hooks/useSendMessage';
 import useGetMessages from '../../hooks/useGetMessages';
 import useSearchOneUser from '../../hooks/useSearchOneUser';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useListenMessage from '../../hooks/useListenMessage';
 import useConversation from '../../store/useConversation';
+import { timeActions } from '../../store/time';
 
 const Message = () => {
 
   const params = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const authUser = useSelector(state => state.auth.authUser);
+  const lastDate = useSelector(state => state.time.time);
   const { sendMessage, loading: sendLoading } = useSendMessage();
   const { getMessages, messages, loading: getLoading } = useGetMessages();
   const { loading, searchUser, getSerchedUser } = useSearchOneUser();
-	const lastMessageRef = useRef();
+  const lastMessageRef = useRef();
 
   const { setMessages } = useConversation();
   const socket = useSelector(state => state.socket.socketId);
@@ -35,19 +38,28 @@ const Message = () => {
       messageInput.sholdShake = true;
       setMessages([messageInput, ...messages]);
       console.log("socket", messageInput);
-  })
+    })
   }, [messageInput, messages, sent]);
 
   useEffect(() => {
-		setTimeout(() => {
-			lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
-		}, 100);
-	}, [messages]);
+    setTimeout(() => {
+      lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  }, [messages]);
 
   const sendInputMessage = () => {
     // setMessageList(old => ([ messageInput , ...old]));
+    const today = new Date();
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const date = `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`;
+    let message = messageInput;
+    if (date !== lastDate) {
+      dispatch(timeActions.setTime(date));
+      message = `${date}            
+      ${message}`
+    }
     setMessageInput('');
-    sendMessage(params.username, messageInput);
+    sendMessage(params.username, message);
     setSent(old => !old);
   }
 
@@ -72,7 +84,7 @@ const Message = () => {
             <div key={Math.random()} className='pos'>
               <span className={`${i.senderId === authUser.id ? "right" : "left"}`}>
                 <h3>{i.message}</h3>
-                <h5 style={{color: "black", marginTop: ".2rem", float: "right"}}>{i.time}</h5>
+                <h5 style={{ color: "black", marginTop: ".2rem", float: "right" }}>{i.time}</h5>
               </span>
             </div>
           )))

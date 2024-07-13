@@ -5,6 +5,7 @@ import navReducer from './nav'
 import routesReducer from './routeshistory'
 import socketReducer from './socket'
 import messagesRouter from './messages'
+import timeRouter from './time'
 
 const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
         nav: navReducer,
         routes: routesReducer,
         socket: socketReducer,
-        messages: messagesRouter
+        messages: messagesRouter,
+        time: timeRouter
     }
 });
 

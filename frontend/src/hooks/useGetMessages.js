@@ -3,6 +3,7 @@ import toast from 'react-hot-toast'
 import { useDispatch } from "react-redux";
 import { messagesActions } from '../store/messages';
 import useConversation from "../store/useConversation";
+import { timeActions } from "../store/time";
 
 const useGetMessages = () => {
     const [loading, setLoading] = useState(false);
@@ -22,6 +23,8 @@ const useGetMessages = () => {
                 throw new Error(data.error);
             
             setMessages(data);
+            const date = data[data.length - 1].date;
+            dispatch(timeActions.setTime(date));
 
         } catch (error) {
             toast.error(error.message);
