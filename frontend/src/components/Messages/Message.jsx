@@ -52,15 +52,13 @@ const Message = () => {
     let now = new Date();
     let options = { year: 'numeric', month: 'long', day: 'numeric' };
     let date = now.toLocaleDateString('en-US', options);
-    let message = messageInput;
+    let changeDate = null;
     if (date !== lastDate) {
       dispatch(timeActions.setTime(date));
-      message = `${date}\n
-               \n
-      ${message}`
+      changeDate = date;
     }
     setMessageInput('');
-    sendMessage(params.username, message);
+    sendMessage(params.username, messageInput, changeDate);
     setSent(old => !old);
   }
 
@@ -83,10 +81,15 @@ const Message = () => {
         {
           messages.map((i => (
             <div key={Math.random()} className='pos'>
-              <span className={`${i.senderId === authUser.id ? "right" : "left"}`}>
-                <h4>{i.message}</h4>
-                <h5 style={{ color: "black", marginTop: ".2rem", float: "right" }}>{i.time}</h5>
-              </span>
+              {i.senderId ?
+                (<span className={`${i.senderId === authUser.id ? "right" : "left"}`}>
+                  <h4>{i.message}</h4>
+                  <h5 style={{ color: "black", marginTop: ".2rem", float: "right" }}>{i.time}</h5>
+                </span>) :
+                (<span className='center'>
+                  <h5>{i.date}</h5>
+                </span>)
+              }
             </div>
           )))
         }

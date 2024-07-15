@@ -8,6 +8,7 @@ export const sendMessage = async (req, res) => {
         const senderId = req.user._id;
         const { username: username } = req.params;
         const { message } = req.body;
+        const { dateChange } = req.body;
 
         const receiver = await User.findOne({ username });
         const receiverId = receiver._id;
@@ -27,13 +28,21 @@ export const sendMessage = async (req, res) => {
             });
         }
 
-        const newMessage = new Message({
-            senderId,
-            receiverId,
-            message,
-            date,
-            time
-        });
+        let newMessage;
+
+        if (dateChange) {
+            newMessage = new Message({
+                date: dateChange
+            })
+        } else {
+            newMessage = new Message({
+                senderId,
+                receiverId,
+                message,
+                date,
+                time
+            });
+        }
 
         if (newMessage) {
             conversation.messages.unshift(newMessage._id);

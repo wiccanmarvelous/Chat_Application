@@ -13,7 +13,7 @@ const useSendMessage = () => {
     // const { socket } = useSocketContext();
     const socket = useSelector(state => state.socket.socketId);
 	
-	const sendMessage = async (receiver, message) => {
+	const sendMessage = async (receiver, message, changeDate) => {
 		setLoading(true);
 		try {
 			const res = await fetch(`/api/message/sendMessage/${receiver}`, {
@@ -21,7 +21,7 @@ const useSendMessage = () => {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ message }),
+				body: JSON.stringify({ message, changeDate }),
 			});
 			const data = await res.json();
 			if (data.error) throw new Error(data.error);

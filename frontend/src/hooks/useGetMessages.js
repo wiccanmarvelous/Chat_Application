@@ -28,7 +28,7 @@ const useGetMessages = () => {
             let options = { year: 'numeric', month: 'long', day: 'numeric' };
             let date = now.toLocaleDateString('en-US', options);
 
-            date = data[data.length - 1]?.date || date;
+            date = data[data.length - 1]?.date || "";
             dispatch(timeActions.setTime(date));
 
         } catch (error) {
