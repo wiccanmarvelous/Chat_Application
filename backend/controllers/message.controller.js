@@ -12,11 +12,10 @@ export const sendMessage = async (req, res) => {
         const receiver = await User.findOne({ username });
         const receiverId = receiver._id;
 
-        const today = new Date();
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-        const date = `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`;
-        const time = `${today.getHours()}:${today.getMinutes()}`;
+        let now = new Date();
+        let options = { year: 'numeric', month: 'long', day: 'numeric' };
+        let date = now.toLocaleDateString('en-US', options);
+        let time = `${now.getHours()}:${now.getMinutes()}`;
 
         let conversation = await Conversation.findOne({
             participants: { $all: [senderId, receiverId] },
@@ -45,9 +44,9 @@ export const sendMessage = async (req, res) => {
         const receiverSocketId = getReceiverSocketId(receiverId);
 
         console.log(receiverSocketId, newMessage);
-		if (receiverSocketId) {
-			io.to(receiverSocketId).emit("newMessage", newMessage);
-		}
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
 
         res.status(201).json(newMessage);
 
@@ -61,7 +60,7 @@ export const getMessages = async (req, res) => {
     try {
         const senderId = req.user._id;
         const { username: username } = req.params;
-        
+
         const receiver = await User.findOne({ username });
         const receiverId = receiver._id;
 

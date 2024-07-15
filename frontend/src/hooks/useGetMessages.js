@@ -21,9 +21,14 @@ const useGetMessages = () => {
 
             if (data.error)
                 throw new Error(data.error);
-            
+
             setMessages(data);
-            const date = data[data.length - 1].date;
+
+            let now = new Date();
+            let options = { year: 'numeric', month: 'long', day: 'numeric' };
+            let date = now.toLocaleDateString('en-US', options);
+
+            date = data[data.length - 1]?.date || date;
             dispatch(timeActions.setTime(date));
 
         } catch (error) {
@@ -31,7 +36,7 @@ const useGetMessages = () => {
         } finally {
             setLoading(false);
         }
-    }   
+    }
 
     return { getMessages, messages, loading };
 }

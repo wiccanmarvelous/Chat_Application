@@ -49,13 +49,14 @@ const Message = () => {
 
   const sendInputMessage = () => {
     // setMessageList(old => ([ messageInput , ...old]));
-    const today = new Date();
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const date = `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`;
+    let now = new Date();
+    let options = { year: 'numeric', month: 'long', day: 'numeric' };
+    let date = now.toLocaleDateString('en-US', options);
     let message = messageInput;
     if (date !== lastDate) {
       dispatch(timeActions.setTime(date));
-      message = `${date}            
+      message = `${date}\n
+               \n
       ${message}`
     }
     setMessageInput('');
